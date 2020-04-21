@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  first_name: { type: String, required: true, max: 100 },
-  last_name:  { type: String, required: true, max: 100 },
+  firstName: { type: String, required: true, max: 100 },
+  lastName:  { type: String, required: true, max: 100 },
   username:   { type: String, required: true, max: 70 },
   password:   { type: String, required: true, max: 50},
   membership: { type: String, required: true, enum: ['Partial', 'Full'], default: 'Partial' },
@@ -17,7 +17,7 @@ UserSchema.virtual('url')
 
 UserSchema.virtual('name')
 .get(function () {
-  return `${this.first_name} ${this.last_name}`;
+  return `${this.firstName} ${this.lastName}`;
 })
 
 module.exports = mongoose.model('User', UserSchema);
