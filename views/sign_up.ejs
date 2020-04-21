@@ -20,6 +20,19 @@
     <label for="password">Password</label>
     <input type="password" class="form-input" id="password" name="password" placeholder="password" required="true">
   </div>
+
+  <div class="form-field">
+    <label for="confirmPassword">Confirm Password</label>
+    <input type="password" class="form-input" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required="true">
+  </div>
   
   <button>Submit</button>
 </form>
+
+<% if (locals.errors) { %>
+  <ul>
+    <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>

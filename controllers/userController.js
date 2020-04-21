@@ -1,38 +1,49 @@
 const User = require('../models/user');
-const { body, validationResult } = require('express-validator')
+const { body, check, validationResult } = require('express-validator')
 const async = require('async');
+const bcrypt = require('bcryptjs');
+
 
 exports.userCreateGet = function(req, res, next) {
   res.render('sign_up', { title: 'Sign Up' });
 }
 
 exports.userCreatePost = [
+  // Validate
   body('firstName', 'First name is required.').trim().isLength({ min: 1 }),
   body('lastName', 'Last name is required.').trim() .isLength({ min: 1 }),
   body('username', 'User name is required').trim().isLength({ min: 1 }),
   body('password', 'Password is required').trim().isLength({ min: 1 }),
+  check('confirmPassword', 'Password confirmation must match password.')
+    .exists()
+    .custom((value, { req }) => value === req.body.password),
 
+  // Sanitize
   body('*').escape(),
 
+  // Check for errors and either re-render or save to db
   (req, res, next) => {
-    const errors = validationResult(req);
-    const user = new User({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      username: req.body.username,
-      password: req.body.password,
-      membership: 'Partial'
-    })
-    if (!errors.isEmpty()) {
-      res.render('sign_up', { title: 'Sign Up', user: user, errors: errors.array() });
-      return;
-    }
-    else {
-      user.save(function (err) {
-        if (err) { return next(err) }
-        res.redirect('/');
+    bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+      if (err) { return next(err) }
+      const errors = validationResult(req);
+      const user = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        username: req.body.username,
+        password: hashedPassword,
+        membership: 'Partial'
       })
-    } 
+      if (!errors.isEmpty()) {
+        res.render('sign_up', { title: 'Sign Up', user: user, errors: errors.array() });
+        return;
+      }
+      else {
+        user.save(function (err) {
+          if (err) { return next(err) }
+          res.redirect('/');
+        })
+      } 
+    })
   }
 ];
 
