@@ -1,0 +1,23 @@
+<header>
+  <h1>Club</h1>
+  <ul class="header-links">
+    <% if (locals.currentUser) { %>
+      <% if (currentUser.membership === 'Partial') { %>
+        <a href="<%= currentUser.url + '/upgrade' %>">
+          <li class="header-link">Upgrade</li>  
+        </a>
+      <% } %>
+      <a href="#"><li class="header-link">Log out</li></a>
+    <% } else { %>
+      <a href="/">
+        <li class="header-link">Home</li>
+      </a>
+    <a href="/sign-up">
+        <li class="header-link">Sign Up</li>
+      </a>
+      <a href="/log-in">
+        <li class="header-link">Log in</li>
+      </a>
+    <% } %>
+  </ul>
+</header>

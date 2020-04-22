@@ -1,9 +1,9 @@
 <h1><%= title %></h1>
 
-<form action="/upgrade" method="POST">
-  <input type="hidden" name="id" value=>
+<form action="" method="POST">
   <label for="passcode">Enter secret passcode:</label>
   <input type="password" id="passcode" name="passcode" placeholder="secret passcode" class="form=input" required="true">
   <button>Submit</button>
 </form>
-<p>Current user:<%= locals.currentUser %></p>
+<p>Current user:<%= locals.currentUser ? currentUser : '' %></p>
+<p><%= locals.currentUser ? currentUser._id : ''%></p>

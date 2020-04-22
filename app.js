@@ -19,7 +19,7 @@ const app = express();
 // Setup mongoose connection
 const mongoose = require('mongoose');
 const mongoDB = process.env.MONGODB_URI;
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useFindAndModify: false });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
@@ -43,9 +43,13 @@ passport.use(
     User.findOne({ username: username }, (err, user) => {
       if (err) { return done(err) }
       if (!user) { return done(null, false, { msg: 'Incorrect username' }) }
-      if (user.password !== password) {
-        return done(null, false, { msg: 'Incorrect password' })
-      }
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+          return done(null, user);
+        } else {
+          return done(null, false, { msg: "Incorrect password" });
+        }
+      })
       return done(null, user);
     });
   })

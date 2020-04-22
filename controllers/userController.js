@@ -63,6 +63,48 @@ exports.userUpdatePost = function(req, res, next) {
   res.send('Post Update');
 }
 
+exports.userUpgradeGet = function(req, res, next) {
+  res.render('upgrade_membership', { title: 'Upgrade Membership' });
+};
+
+exports.userUpgradePost = [
+  body("passcode").trim().isLength({ min: 1 }),
+  body("passcode").escape(),
+  (req, res, next) => {
+    User.findById(req.params.id).exec(function (err, result) {
+      if (err) {
+        return next(err);
+      }
+      const errors = validationResult(req);
+      const user = new User({
+        firstName: result.firstName,
+        lastName: result.lastName,
+        username: result.username,
+        password: result.password,
+        membership: "Full",
+        _id: result._id,
+      });
+      if (!errors.isEmpty() || req.body.passcode !== process.env.PASSCODE) {
+        res.render("upgrade_membership", {
+          title: "Upgrade Membership",
+          errors: errors.array(),
+        });
+        return;
+      } else {
+        User.findByIdAndUpdate(req.params.id, user, {}, function (
+          err,
+          upgradedUser
+        ) {
+          if (err) {
+            return next(err);
+          }
+          res.redirect("/");
+        });
+      }
+    });
+  },
+];
+
 exports.userDetail = function(req, res, next) {
   res.send('GET user detail');
 }
