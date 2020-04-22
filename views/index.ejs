@@ -1,1 +1,26 @@
 <h1>Messages</h1>
+
+<% if (locals.message_list) { %>
+
+    <ul class="messages">
+      <% message_list.forEach(message => { %>
+        <li class="message">
+          <h3 class="message-title"><%= message.title %></h3>
+          <p class="message-body"><%= message.body %></p>
+          <div class="message-bottom-row">
+            <p class="message-author">
+              Author: 
+              <%= currentUser && currentUser.membership === 'Full' ? 
+                  message.user.firstName : '*****' 
+              %>
+            </p>
+            <p class="message-date">
+              <%= currentUser && currentUser.membership === 'Full' ? 
+                  message.date : 'Date: *****' 
+              %>
+            </p>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+<% } %>

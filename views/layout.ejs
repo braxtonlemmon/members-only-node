@@ -11,11 +11,9 @@
   <div class="container">
     <% include header.ejs %>
     <div class="content">
-      <% if (locals.currentUser) { %>
-        <p>Logged in as: <%= currentUser.name %></p>
-      <% } %>
       <%- body %>
     </div>
+    <% include footer.ejs %>
   </div>
 </body>
 </html>
