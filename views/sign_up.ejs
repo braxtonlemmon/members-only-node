@@ -3,17 +3,17 @@
 <form action="/sign-up" method="POST">
   <div class="form-field">
     <label for="firstName">First name:</label>
-    <input type="text" class="form-input" id="firstName" name="firstName" placeholder="First Name" required="true">
+    <input type="text" class="form-input" id="firstName" name="firstName" placeholder="First Name" required="true" value="<%= locals.user ? user.firstName : '' %>">
   </div>
 
   <div class="form-field">
     <label for="lastName">Last name:</label>
-    <input type="text class="form-input" id="lastName" name="lastName" placeholder="Last Name" required="true">
+    <input type="text class="form-input" id="lastName" name="lastName" placeholder="Last Name" required="true" value="<%= locals.user ? user.lastName : '' %>">
   </div>
 
   <div class="form-field">
     <label for="username">Username (email)</label>
-    <input type="text" class="form-input" id="username" name="username" placeholder="email@example.com" required="true">
+    <input type="text" class="form-input" id="username" name="username" placeholder="email@example.com" required="true" value="<%= locals.user ? user.username : '' %>">
   </div>
 
   <div class="form-field">

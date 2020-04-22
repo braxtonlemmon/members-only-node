@@ -8,6 +8,8 @@ const expressLayouts = require('express-ejs-layouts');
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require('bcryptjs');
+const User = require('./models/user');
+const session = require('express-session');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -35,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Passport
+app.use(session({ secret: 'blah', resave: false, saveUninitialized: true }));
 passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
@@ -48,8 +51,23 @@ passport.use(
   })
 );
 
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user)
+  });
+});
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
