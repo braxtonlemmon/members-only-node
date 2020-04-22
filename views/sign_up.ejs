@@ -1,7 +1,6 @@
 <h1><%= title %></h1>
 
 <form action="/sign-up" method="POST">
-
     <label for="firstName">First name</label>
     <input type="text" class="form-input" id="firstName" name="firstName" placeholder="First Name" required="true" value="<%= locals.user ? user.firstName : '' %>">
 
@@ -20,12 +19,4 @@
   <button class="form-submit">Submit</button>
 </form>
 
-<% if (locals.errors) { %>
-  <div class="errors">
-    <ul>
-      <% errors.forEach(error => { %>
-        <li class="error-item"><%= error.msg %></li>
-      <% }) %>
-    </ul>
-  </div>
-<% } %>
+<% include errors.ejs %>

@@ -8,3 +8,8 @@ exports.logInPost = passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/log-in'
 });
+
+exports.logOutGet = function(req, res) {
+  req.logout();
+  res.redirect('/');
+};

@@ -3,17 +3,11 @@
 <form action="/log-in" method="POST">
   <label for="username">Username</label>
   <input type="text" id="username" name="username" class="form-input" placeholder="Username" required>
+  
   <label for="password">Password</label>
   <input type="password" id="password" name="password" class="form-input" placeholder="Password" required>
+  
   <button class="form-submit">Submit</button> 
 </form>
 
-<% if (locals.errors) { %>
-  <div class="errors">
-    <ul>
-      <% errors.forEach(error => { %>
-      <li class="error-item"><%= error.msg %></li>
-      <% }) %>
-    </ul>
-  </div>
-<% } %>
+<% include errors.ejs %>

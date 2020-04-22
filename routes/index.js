@@ -4,13 +4,12 @@ const userController = require('../controllers/userController.js');
 const messageController = require('../controllers/messageController.js');
 const sessionController = require('../controllers/sessionController.js');
 const { body, validationResult } = require('express-validator');
+const Message = require('../models/message');
 
 /////////////////////
 /* GET home page. */
 ///////////////////
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Members Only' });
-});
+router.get('/', messageController.messageList);
 
 /////////////////////
 /* SESSION routes */
@@ -20,6 +19,8 @@ router.get('/', function(req, res, next) {
 router.get('/log-in', sessionController.logInGet);
 // POST login
 router.post('/log-in', sessionController.logInPost);
+// GET logout
+router.get('/log-out', sessionController.logOutGet);
 
 //////////////////
 /* USER routes */

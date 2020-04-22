@@ -29,5 +29,10 @@ exports.messageDetail = function (req, res, next) {
 };
 
 exports.messageList = function (req, res, next) {
-  res.send("GET message list");
+  Message.find()
+    .populate('user')
+    .exec(function(err, message_list) {
+      if (err) { return next(err) }
+      res.render('index', { title: 'Messages', message_list: message_list });
+    });
 };
