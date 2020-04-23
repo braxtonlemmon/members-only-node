@@ -10,12 +10,12 @@
           <div class="message-bottom-row">
             <p class="message-author">
               Author: 
-              <%= currentUser && currentUser.membership === 'Full' ? 
+              <%= currentUser && currentUser.membership ? 
                   message.user.firstName : '*****' 
               %>
             </p>
             <p class="message-date">
-              <%= currentUser && currentUser.membership === 'Full' ? 
+              <%= currentUser && currentUser.membership ? 
                   message.date : 'Date: *****' 
               %>
             </p>
@@ -23,4 +23,4 @@
         </li>
       <% }) %>
     </ul>
-<% } %>
+<% } %

@@ -9,7 +9,7 @@
     <% if (locals.currentUser) { %>
 
       <!-- Partial membership -->
-      <% if (currentUser.membership === 'Partial') { %>
+      <% if (!currentUser.membership) { %>
           <a href="<%= currentUser.url + '/upgrade' %>">
             <li class="header-link">Upgrade</li>  
           </a>

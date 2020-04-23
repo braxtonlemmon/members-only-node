@@ -32,7 +32,8 @@ exports.userCreatePost = [
         lastName: req.body.lastName,
         username: req.body.username,
         password: hashedPassword,
-        membership: 'Partial'
+        membership: false,
+        admin: false
       })
       if (!errors.isEmpty()) {
         res.render('sign_up', { title: 'Sign Up', user: user, errors: errors.array() });
@@ -72,7 +73,7 @@ exports.userUpgradeGet = function(req, res, next) {
 };
 
 exports.userUpgradePost = [
-  body("passcode").trim().isLength({ min: 1 }),
+  body('passcode', 'Correct passcode is required to enter the club.').trim().equals(process.env.PASSCODE),
   body("passcode").escape(),
   (req, res, next) => {
     User.findById(req.params.id).exec(function (err, result) {
@@ -85,10 +86,10 @@ exports.userUpgradePost = [
         lastName: result.lastName,
         username: result.username,
         password: result.password,
-        membership: "Full",
+        membership: true,
         _id: result._id,
       });
-      if (!errors.isEmpty() || req.body.passcode !== process.env.PASSCODE) {
+      if (!errors.isEmpty()) {
         res.render("upgrade_membership", {
           title: "Upgrade Membership",
           errors: errors.array(),

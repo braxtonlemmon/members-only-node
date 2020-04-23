@@ -28,13 +28,13 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 let users = [];
 let messages = [];
 
-function userCreate(firstName, lastName, username, password, membership, cb) {
+function userCreate(firstName, lastName, username, password, membership, admin, cb) {
   bcrypt.hash(password, 10, (err, hashedPassword) => {
     if (err) {
       cb(err, null);
       return;
     }
-    userdetail = { firstName, lastName, username, password: hashedPassword, membership };
+    userdetail = { firstName, lastName, username, password: hashedPassword, membership, admin };
     const user = new User(userdetail);
     user.save(function (err) {
       if (err) {
@@ -71,7 +71,8 @@ function createUsers(cb) {
           'Dawson',
           'tommyd',
           'foobar',
-          'Partial',
+          false,
+          false,
           callback
         );
       },
@@ -81,7 +82,8 @@ function createUsers(cb) {
           'Prancer',
           'louisp',
           'foobar',
-          'Partial',
+          false,
+          false,
           callback
         );
       },
@@ -91,7 +93,8 @@ function createUsers(cb) {
           'Mustard',
           'meganm',
           'foobar',
-          'Partial',
+          false,
+          false,
           callback
         );
       },  

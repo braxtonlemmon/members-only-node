@@ -1,5 +1,7 @@
 <footer>
   <% if (locals.currentUser) { %>
-    <p>Logged in as: <%= currentUser.name %></p>
+    <h3>Hey there, <%= currentUser.firstName %></h3>
+  <% } else { %>
+    <h3>You know you want to join . . .</h3>
   <% } %>
 </footer>

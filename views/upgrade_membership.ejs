@@ -2,8 +2,8 @@
 
 <form action="" method="POST">
   <label for="passcode">Enter secret passcode:</label>
-  <input type="password" id="passcode" name="passcode" placeholder="secret passcode" class="form=input" required="true">
-  <button>Submit</button>
+  <input type="password" id="passcode" name="passcode" placeholder="secret passcode" class="form-input" required>
+  <button class="form-submit">Submit</button>
 </form>
-<p>Current user:<%= locals.currentUser ? currentUser : '' %></p>
-<p><%= locals.currentUser ? currentUser._id : ''%></p>
+
+<% include errors.ejs %>
