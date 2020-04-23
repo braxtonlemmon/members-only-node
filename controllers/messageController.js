@@ -1,12 +1,36 @@
 const Message = require("../models/message");
+const { body, validationResult } = require('express-validator');
 
 exports.messageCreateGet = function (req, res, next) {
-  res.send("GET create");
+  res.render('message_form', { title: 'Create Message' });
 };
 
-exports.messageCreatePost = function (req, res, next) {
-  res.send("Post create");
-};
+exports.messageCreatePost = [
+  body('title', 'Message title is required').trim().isLength({ min: 1 }),
+  body('body', 'Message content is required.').trim().isLength({ min: 1 }),
+  body('*').escape(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render('message_form', { title: 'Create Message', message: req.body, errors: errors.array() });
+      return;
+    }
+    else {
+      const message = new Message(
+        {
+          title: req.body.title,
+          body: req.body.body,
+          created: Date.now(),
+          user: req.body.userId
+        }
+      );
+      message.save(function(err) {
+        if (err) { return next(err) }
+        res.redirect('/');
+      })
+    }
+  }
+];
 
 exports.messageDeleteGet = function (req, res, next) {
   res.send("GET Delete");
