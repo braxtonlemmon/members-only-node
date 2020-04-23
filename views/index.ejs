@@ -1,14 +1,17 @@
-<% if (!currentUser.membership) { %>
-  <a href="<%= currentUser.url + '/upgrade' %>">
-    <li class="header-link">Upgrade</li>
-  </a>
-  <% } %>
-  <% if (currentUser.membership && !currentUser.admin) { %>
-    <a href="<%= currentUser.url + '/admin' %>">
-      <li class="header-link">Admin</li>
-    </a>
-    <span>Become and admin!</span>
-  <% } %>
+<% if (locals.currentUser) { %>
+    <ul class="header-links">
+    <% if (!currentUser.membership) { %>
+      <a href="<%= currentUser.url + '/upgrade' %>">
+        <li class="header-link">Upgrade Membership</li>
+      </a>
+    <% } %>
+    <% if (currentUser.membership && !currentUser.admin) { %>
+      <a href="<%= currentUser.url + '/admin' %>">
+        <li class="header-link">Become Admin</li>
+      </a>
+    <% } %>
+    </ul>
+<% } %>
     
 <h1>Messages</h1>
 <% if (locals.message_list) { %>

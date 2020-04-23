@@ -1,5 +1,5 @@
 <header>
-  <h1>Club</h1>
+  <h1>TheClub</h1>
   <ul class="header-links">
 
     <!-- logged in OR logged out -->
@@ -8,17 +8,7 @@
     <!-- Logged in -->
     <% if (locals.currentUser) { %>
 
-      <!-- Partial membership -->
-      <% if (!currentUser.membership) { %>
-          <a href="<%= currentUser.url + '/upgrade' %>">
-            <li class="header-link">Upgrade</li>  
-          </a>
-      <% } %>
-      <!-- Full membership -->
-      <% if (currentUser.membership && !currentUser.admin) { %>
-        <a href="<%= currentUser.url + '/admin' %>">
-        <li class="header-link">Admin</li></a>
-      <% } %>
+      
       <a href="/message/create"><li class="header-link">New Message</li></a>
       <a href="/log-out"><li class="header-link">Log out</li></a>
   

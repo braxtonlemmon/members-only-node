@@ -15,6 +15,8 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+app.use(compression());
+app.use(helmet());
 
 // Setup mongoose connection
 const mongoose = require('mongoose');
