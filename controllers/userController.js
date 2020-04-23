@@ -2,6 +2,7 @@ const User = require('../models/user');
 const { body, check, validationResult } = require('express-validator')
 const async = require('async');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 
 exports.userCreateGet = function(req, res, next) {
@@ -40,7 +41,10 @@ exports.userCreatePost = [
       else {
         user.save(function (err) {
           if (err) { return next(err) }
-          res.redirect('/');
+          req.login(user, function(err) {
+            if (err) { return next(err); }
+            return res.redirect('/');
+          })
         })
       } 
     })
