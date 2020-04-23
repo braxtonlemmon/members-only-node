@@ -1,6 +1,6 @@
 <footer>
   <% if (locals.currentUser) { %>
-    <h3>Hey there, <%= currentUser.firstName %></h3>
+    <h3>Hey there, <%= currentUser.firstName.charAt(0).toUpperCase() + currentUser.firstName.slice(1) %>.</h3>
   <% } else { %>
     <h3>You know you want to join . . .</h3>
   <% } %>
