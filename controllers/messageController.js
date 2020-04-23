@@ -32,12 +32,15 @@ exports.messageCreatePost = [
   }
 ];
 
-exports.messageDeleteGet = function (req, res, next) {
-  res.send("GET Delete");
-};
-
 exports.messageDeletePost = function (req, res, next) {
-  res.send("Post Delete");
+  Message.findById(req.params.id)
+  .exec(function(err, message) {
+    if (err) { return next(err); }
+    Message.findByIdAndRemove(req.params.id, function deleteMessage(err) {
+      if (err) { return next(err); }
+      res.redirect('/');
+    })
+  })
 };
 
 exports.messageUpdateGet = function (req, res, next) {

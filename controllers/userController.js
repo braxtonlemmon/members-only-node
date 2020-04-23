@@ -110,6 +110,41 @@ exports.userUpgradePost = [
   },
 ];
 
+exports.userAdminGet = function(req, res, next) {
+  res.render('admin_form', { title: 'Enable Admin Status' });
+}
+
+exports.userAdminPost = [
+  body('passcode', 'Correct admin passcode is required').trim().equals(process.env.ADMIN_CODE),
+  body('passcode').escape(),
+  (req, res, next) => {
+    User.findById(req.params.id)
+      .exec(function (err, result) {
+        if (err) { return next(err); }
+        const errors = validationResult(req);
+        const user = new User({
+          firstName: result.firstName,
+          lastName: result.lastName,
+          username: result.username,
+          password: result.password,
+          membership: result.membership,
+          admin: true,
+          _id: result._id
+        })
+        if (!errors.isEmpty()) {
+          res.render('admin_form', { title: 'Enable Admin Status', errors: errors.array() });
+          return;
+        }
+        else {
+          User.findByIdAndUpdate(req.params.id, user, {}, function (err, upgradedUser) {
+            if (err) { return next(err) }
+            res.redirect('/');
+          })
+        }
+      })
+  }
+]
+
 exports.userDetail = function(req, res, next) {
   res.send('GET user detail');
 }

@@ -42,6 +42,10 @@ router.post('/user/:id/update', userController.userUpdatePost);
 router.get("/user/:id/upgrade", userController.userUpgradeGet);
 // POST membership upgrade
 router.post("/user/:id/upgrade", userController.userUpgradePost); 
+// GET admin status update
+router.get("/user/:id/admin", userController.userAdminGet);
+// POST admin status update
+router.post("/user/:id/admin", userController.userAdminPost);
 // GET one user
 router.get('/user/:id', userController.userDetail);
 // GET all users
@@ -55,8 +59,6 @@ router.get('/users', userController.userList);
 router.get('/message/create', messageController.messageCreateGet);
 // POST create
 router.post('/message/create', messageController.messageCreatePost);
-// GET delete
-router.get('/message/:id/delete', messageController.messageDeleteGet);
 // POST delete
 router.post('/message/:id/delete', messageController.messageDeletePost);
 // GET update

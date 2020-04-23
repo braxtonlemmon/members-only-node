@@ -1,7 +1,17 @@
+<% if (!currentUser.membership) { %>
+  <a href="<%= currentUser.url + '/upgrade' %>">
+    <li class="header-link">Upgrade</li>
+  </a>
+  <% } %>
+  <% if (currentUser.membership && !currentUser.admin) { %>
+    <a href="<%= currentUser.url + '/admin' %>">
+      <li class="header-link">Admin</li>
+    </a>
+    <span>Become and admin!</span>
+  <% } %>
+    
 <h1>Messages</h1>
-
 <% if (locals.message_list) { %>
-
     <ul class="messages">
       <% message_list.forEach(message => { %>
         <li class="message">
@@ -20,6 +30,11 @@
               %>
             </p>
           </div>
+          <% if (currentUser && currentUser.admin) { %>
+            <form action=<%= `/message/${message._id}/delete` %> method="POST">
+              <button class="message-delete-btn">X</button>
+            </form>
+          <% } %>
         </li>
       <% }) %>
     </ul>
