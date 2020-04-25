@@ -1,5 +1,6 @@
 const Message = require("../models/message");
 const { body, validationResult } = require('express-validator');
+const he = require('he');
 
 exports.messageCreateGet = function (req, res, next) {
   res.render('message_form', { title: 'Create Message' });
@@ -60,6 +61,10 @@ exports.messageList = function (req, res, next) {
     .populate('user')
     .exec(function(err, message_list) {
       if (err) { return next(err) }
+      message_list.forEach(message => {
+        message.title = he.decode(message.title);
+        message.body = he.decode(message.body);
+      })
       res.render('index', { title: 'Messages', message_list: message_list });
     });
 };
